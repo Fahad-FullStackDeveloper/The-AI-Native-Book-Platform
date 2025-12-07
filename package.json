@@ -1,6 +1,6 @@
 {
-  "name": "my-docs-site",
-  "version": "0.0.0",
+  "name": "the-ai-native-book",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
@@ -19,9 +19,12 @@
     "@docusaurus/preset-classic": "3.9.2",
     "@mdx-js/react": "^3.0.0",
     "clsx": "^2.0.0",
+    "firebase": "^12.6.0",
     "prism-react-renderer": "^2.3.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-chatbot-kit": "^2.2.2",
+    "react-dom": "^19.0.0",
+    "react-markdown": "^10.1.0"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "3.9.2",

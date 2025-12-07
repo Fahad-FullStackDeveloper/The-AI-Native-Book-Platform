@@ -5,8 +5,8 @@ import type * as Preset from '@docusaurus/preset-classic';
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 const config: Config = {
-  title: 'My Site',
-  tagline: 'Dinosaurs are cool',
+  title: 'The AI Native Book',
+  tagline: 'An Open Source textbook on Physical AI & Humanoid Robotics',
   favicon: 'img/favicon.ico',
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
@@ -46,21 +46,6 @@ const config: Config = {
           editUrl:
             'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
         },
-        blog: {
-          showReadingTime: true,
-          feedOptions: {
-            type: ['rss', 'atom'],
-            xslt: true,
-          },
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
-          // Useful options to enforce blogging best practices
-          onInlineTags: 'warn',
-          onInlineAuthors: 'warn',
-          onUntruncatedBlogPosts: 'warn',
-        },
         theme: {
           customCss: './src/css/custom.css',
         },
@@ -75,9 +60,9 @@ const config: Config = {
       respectPrefersColorScheme: true,
     },
     navbar: {
-      title: 'My Site',
+      title: 'The AI Native Book',
       logo: {
-        alt: 'My Site Logo',
+        alt: 'AI Humanoid Logo',
         src: 'img/logo.svg',
       },
       items: [
@@ -85,25 +70,40 @@ const config: Config = {
           type: 'docSidebar',
           sidebarId: 'tutorialSidebar',
           position: 'left',
-          label: 'Tutorial',
+          label: 'Physical AI',
         },
-        {to: '/blog', label: 'Blog', position: 'left'},
         {
-          href: 'https://github.com/facebook/docusaurus',
+          href: `https://github.com/panaversity/spec-kit-plus/`,
           label: 'GitHub',
           position: 'right',
         },
       ],
     },
     footer: {
-      style: 'dark',
+      style: 'light',
       links: [
         {
-          title: 'Docs',
+          title: 'Learn',
           items: [
             {
-              label: 'Tutorial',
-              to: '/docs/intro',
+              label: 'Introduction',
+              to: '/docs/physical-ai-humanoid-robotics',
+            },
+            {
+              label: 'Module 1: The Robotic Nervous System',
+              to: '/docs/physical-ai-humanoid-robotics/module-1',
+            },
+            {
+              label: 'Module 2: The Digital Twin',
+              to: '/docs/physical-ai-humanoid-robotics/module-2',
+            },
+            {
+              label: 'Module 3: The AI-Robot Brain',
+              to: '/docs/physical-ai-humanoid-robotics/module-3',
+            },
+            {
+              label: 'Module 4: Vision-Language-Action',
+              to: '/docs/physical-ai-humanoid-robotics/module-4',
             },
           ],
         },
@@ -111,16 +111,12 @@ const config: Config = {
           title: 'Community',
           items: [
             {
-              label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+              label: 'Discussions',
+              href: 'https://github.com/panaversity/spec-kit-plus/discussions',
             },
             {
               label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus',
-            },
-            {
-              label: 'X',
-              href: 'https://x.com/docusaurus',
+              href: '#', // Placeholder
             },
           ],
         },
@@ -128,21 +124,23 @@ const config: Config = {
           title: 'More',
           items: [
             {
-              label: 'Blog',
-              to: '/blog',
-            },
-            {
               label: 'GitHub',
-              href: 'https://github.com/facebook/docusaurus',
+              href: 'https://github.com/panaversity/spec-kit-plus/',
             },
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+      logo: {
+        alt: 'AI Humanoid Logo',
+        src: 'img/logo.svg',
+        width: 100,
+        height: 100,
+      },
+      copyright: `Copyright © ${new Date().getFullYear()} The AI Native Book Project. Built with Docusaurus.`,
     },
     prism: {
-      theme: prismThemes.github,
-      darkTheme: prismThemes.dracula,
+      theme: prismThemes.oneLight,
+      darkTheme: prismThemes.oneDark,
     },
   } satisfies Preset.ThemeConfig,
 };

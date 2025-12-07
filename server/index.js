@@ -2,7 +2,6 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 const { GoogleGenerativeAI } = require('@google/generative-ai');
-const { Pool } = require('pg'); // Import Pool from pg
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -10,56 +9,46 @@ const port = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
+// In-memory user store for mock authentication
+const users = [];
+
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-// NeonDB connection pool
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false, // Use this for NeonDB, or set up proper certificate verification
-  },
-});
+// Mock Signup Endpoint
+app.post('/signup', (req, res) => {
+  const { email, password } = req.body;
 
-pool.on('error', (err) => {
-  console.error('Unexpected error on idle client', err);
-  process.exit(-1);
-});
-
-// Endpoint to save user data after authentication
-app.post('/save-user', async (req, res) => {
-  const { uid, email, displayName } = req.body;
-  
-  if (!uid || !email) {
-    return res.status(400).json({ error: 'UID and email are required' });
+  if (!email || !password) {
+    return res.status(400).json({ error: 'Email and password are required' });
   }
 
-  try {
-    const client = await pool.connect();
-    // Ensure the users table exists
-    await client.query(`
-      CREATE TABLE IF NOT EXISTS users (
-        uid VARCHAR(255) PRIMARY KEY,
-        email VARCHAR(255) UNIQUE NOT NULL,
-        display_name VARCHAR(255),
-        created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-      );
-    `);
-
-    // Upsert user data: insert if not exists, update if exists
-    const result = await client.query(
-      `INSERT INTO users (uid, email, display_name)
-       VALUES ($1, $2, $3)
-       ON CONFLICT (uid) DO UPDATE SET email = $2, display_name = $3
-       RETURNING *;`,
-      [uid, email, displayName]
-    );
-    client.release();
-    res.status(200).json({ message: 'User data saved successfully', user: result.rows[0] });
-  } catch (error) {
-    console.error('Error saving user data to NeonDB:', error);
-    res.status(500).json({ error: 'Failed to save user data' });
+  const userExists = users.find(user => user.email === email);
+  if (userExists) {
+    return res.status(400).json({ error: 'User already exists' });
   }
+
+  const newUser = { id: users.length + 1, email, password }; // Note: Storing plain text passwords for mock only
+  users.push(newUser);
+
+  res.status(201).json({ message: 'User created successfully', user: {id: newUser.id, email: newUser.email} });
 });
+
+// Mock Login Endpoint
+app.post('/login', (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ error: 'Email and password are required' });
+  }
+
+  const user = users.find(user => user.email === email && user.password === password);
+  if (!user) {
+    return res.status(401).json({ error: 'Invalid credentials' });
+  }
+
+  res.status(200).json({ message: 'Logged in successfully', user: {id: user.id, email: user.email} });
+});
+
 
 app.post('/chat', async (req, res) => {
   try {

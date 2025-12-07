@@ -1,36 +1,41 @@
-import { auth, googleProvider } from '../../firebase/config';
-import GoogleIcon from './GoogleIcon'; // Assuming you will create this component
+import React, { useState } from 'react';
+import { useHistory } from '@docusaurus/router';
+import Link from '@docusaurus/Link';
+import { useAuth } from '../../contexts/AuthContext';
 import './Auth.css';
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
+  const { login, loading } = useAuth();
+  const history = useHistory();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    setLoading(true);
-    try {
-      await auth.signInWithEmailAndPassword(email, password);
-      window.location.href = '/';
-    } catch (err) {
-      setError(err.message);
-    }
-    setLoading(false);
-  };
 
-  const handleGoogleSignIn = async () => {
-    setError('');
-    setLoading(true);
     try {
-      await auth.signInWithPopup(googleProvider);
-      window.location.href = '/';
-    } catch (err) {
+      const response = await fetch('http://localhost:3001/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to log in');
+      }
+      
+      login(data.user.email);
+      history.push('/');
+
+    } catch (err: any) {
       setError(err.message);
     }
-    setLoading(false);
   };
 
   return (
@@ -62,16 +67,6 @@ const LoginForm = () => {
         </div>
         <button type="submit" className="auth-button" disabled={loading}>
           {loading ? 'Logging in...' : 'Log In'}
-        </button>
-        <div className="divider">OR</div>
-        <button
-          type="button"
-          className="auth-button google-auth-button"
-          onClick={handleGoogleSignIn}
-          disabled={loading}
-        >
-          <GoogleIcon />
-          <span>Sign In with Google</span>
         </button>
         <div className="auth-switch">
           Don't have an account? <Link to="/signup">Sign Up</Link>

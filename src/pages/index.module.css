@@ -3,16 +3,24 @@
  * and scoped locally.
  */
 
+/* --- Base Hero Styles --- */
 .heroBanner {
-  padding: 4rem 0;
+  padding: 5rem 0;
   text-align: center;
   position: relative;
   overflow: hidden;
+  background-color: var(--ifm-hero-background-color);
+  z-index: 1;
+}
+
+.heroBanner .container {
+  position: relative;
+  z-index: 3;
 }
 
 @media screen and (max-width: 996px) {
   .heroBanner {
-    padding: 2rem;
+    padding: 3rem 1rem;
   }
 }
 
@@ -20,4 +28,278 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  z-index: 3;
 }
+
+/* --- New Floating Shapes Hero Animation --- */
+.shapeContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 2;
+  pointer-events: none; /* Make the container non-interactive */
+}
+
+.shape {
+  position: absolute;
+  display: block;
+  list-style: none;
+  border-radius: 20%;
+  background: var(--ifm-color-primary-light);
+  animation: float 25s linear infinite;
+  bottom: -150px;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0.8;
+    border-radius: 20%;
+  }
+  100% {
+    transform: translateY(-120vh) rotate(720deg);
+    opacity: 0;
+    border-radius: 50%;
+  }
+}
+
+
+/* --- Key Technologies Section --- */
+.technologiesSection {
+  padding: 4rem 2rem;
+  position: relative;
+  overflow: hidden;
+  background-color: var(--ifm-background-color);
+}
+
+.techCard {
+  background: rgba(23, 42, 69, 0.5); /* Semi-transparent background for dark mode */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); /* For Safari */
+  border-radius: 12px;
+  border: 1px solid rgba(100, 255, 218, 0.2);
+  padding: 2rem;
+  text-align: center;
+  height: 100%;
+  transition: all 0.3s ease;
+}
+
+.cardLink {
+  text-decoration: none;
+}
+
+.cardLink:hover {
+  text-decoration: none;
+}
+
+.techCard:hover {
+  transform: translateY(-10px);
+  border-color: rgba(100, 255, 218, 0.5);
+  box-shadow: 0 10px 30px -15px rgba(2,12,27,0.7);
+}
+
+.techCardLogo {
+  height: 60px; /* Increased logo size */
+  margin-bottom: 1.5rem;
+}
+
+.logoPlaceholder {
+  height: 60px;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed rgba(100, 255, 218, 0.3);
+  border-radius: 8px;
+  background-color: rgba(23, 42, 69, 0.5);
+}
+
+[data-theme='light'] .logoPlaceholder {
+  border-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.logoPlaceholder span {
+  font-family: 'Orbitron', sans-serif;
+  color: var(--ifm-color-primary);
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.techCard h3 {
+  color: var(--ifm-color-primary);
+  margin-bottom: 1rem;
+}
+
+.techCard p {
+  color: var(--ifm-font-color-base);
+}
+
+[data-theme='light'] .technologiesSection {
+    background-color: #f9fafb;
+}
+
+[data-theme='light'] .techCard {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+/* Make logos visible in dark mode using a safer filter */
+[data-theme='dark'] .techCardLogo {
+    filter: invert(1) opacity(0.8);
+}
+
+/* --- What You'll Build Section --- */
+.buildSection {
+  padding: 4rem 2rem;
+  background-color: var(--ifm-background-color); /* Use theme background */
+}
+
+.projectCard {
+  background: rgba(23, 42, 69, 0.5); /* Semi-transparent background for dark mode */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); /* For Safari */
+  border-radius: 12px;
+  border: 1px solid rgba(100, 255, 218, 0.2);
+  height: 100%;
+  transition: all 0.3s ease;
+  overflow: hidden; /* Ensures image corners are rounded */
+  display: flex;
+  flex-direction: column;
+}
+
+.projectCard:hover {
+  transform: translateY(-10px);
+  border-color: rgba(100, 255, 218, 0.5);
+  box-shadow: 0 10px 30px -15px rgba(2,12,27,0.7);
+}
+
+.projectCardImage {
+  width: 100%;
+  height: 200px; /* Fixed height for images */
+  object-fit: cover; /* Cover the area, cropping if necessary */
+  border-bottom: 1px solid rgba(100, 255, 218, 0.2); /* Separator */
+}
+
+.projectCardContent {
+  padding: 1.5rem;
+  flex-grow: 1; /* Allows content to expand and push footer down */
+}
+
+.projectCardContent h3 {
+  color: var(--ifm-color-primary);
+  margin-bottom: 0.5rem;
+}
+
+.projectCardContent p {
+  color: var(--ifm-font-color-base);
+  font-size: 0.95rem;
+}
+
+[data-theme='light'] .buildSection {
+  background-color: #f0f2f5; /* A slightly different light background */
+}
+
+[data-theme='light'] .projectCard {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+[data-theme='light'] .projectCardImage {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* --- Meet the Author Section --- */
+.authorSection {
+  padding: 4rem 2rem;
+  background-color: var(--ifm-background-color);
+}
+
+.authorCard {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  background: rgba(23, 42, 69, 0.5);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(100, 255, 218, 0.2);
+  border-radius: 12px;
+  padding: 2rem;
+}
+
+.authorImageContainer {
+  flex-shrink: 0;
+}
+
+.authorImage {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 3px solid var(--ifm-color-primary);
+}
+
+.authorInfo h3 {
+  color: var(--ifm-color-primary);
+  margin-bottom: 0.25rem;
+}
+
+.authorTitle {
+  font-size: 1.1rem;
+  color: var(--ifm-font-color-base);
+  opacity: 0.8;
+  margin-bottom: 1rem;
+}
+
+.authorSocials {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.authorSocials .button {
+  transition: all 0.3s ease;
+  border-color: var(--ifm-color-primary-darkest);
+  color: var(--ifm-color-primary);
+}
+
+.authorSocials .button:hover {
+  background-color: var(--ifm-color-primary);
+  color: var(--ifm-color-white);
+  border-color: var(--ifm-color-primary);
+}
+
+[data-theme='light'] .authorSocials .button {
+  border-color: var(--ifm-color-primary);
+  color: var(--ifm-color-primary);
+}
+
+[data-theme='light'] .authorSocials .button:hover {
+  background-color: var(--ifm-color-primary);
+  color: #fff;
+}
+
+[data-theme='light'] .authorSection {
+  background-color: #f9fafb;
+}
+
+[data-theme='light'] .authorCard {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+@media screen and (max-width: 768px) {
+  .authorCard {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+

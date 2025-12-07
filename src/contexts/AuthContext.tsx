@@ -1,15 +1,23 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import { auth } from '../firebase/config';
-import firebase from 'firebase/app';
+import React, { createContext, useContext, useState } from 'react';
+
+// Define a simpler user type
+interface User {
+  email: string;
+  displayName?: string;
+}
 
 interface AuthContextType {
-  currentUser: firebase.User | null;
+  currentUser: User | null;
   loading: boolean;
+  login: (email: string) => void;
+  logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType>({
   currentUser: null,
-  loading: true,
+  loading: false,
+  login: () => {},
+  logout: () => {},
 });
 
 export const useAuth = () => {
@@ -17,45 +25,29 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState<firebase.User | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(false); // Set loading to false initially
 
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(async (user) => {
-      setCurrentUser(user);
-      if (user) {
-        // Save user data to NeonDB
-        try {
-          const response = await fetch('http://localhost:3001/save-user', { // Assuming backend runs on 3001
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              uid: user.uid,
-              email: user.email,
-              displayName: user.displayName || user.email, // Use display name if available, otherwise email
-            }),
-          });
-          const data = await response.json();
-          if (!response.ok) {
-            console.error('Failed to save user data to NeonDB:', data.error);
-          } else {
-            console.log('User data saved to NeonDB:', data.user);
-          }
-        } catch (error) {
-          console.error('Error connecting to backend to save user data:', error);
-        }
-      }
+  // Mock login function
+  const login = (email: string) => {
+    setLoading(true);
+    // Simulate an API call
+    setTimeout(() => {
+      setCurrentUser({ email });
       setLoading(false);
-    });
+    }, 1000);
+  };
 
-    return unsubscribe;
-  }, []);
+  // Mock logout function
+  const logout = () => {
+    setCurrentUser(null);
+  };
 
   const value = {
     currentUser,
     loading,
+    login,
+    logout,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

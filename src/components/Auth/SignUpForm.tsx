@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import Link from '@docusaurus/Link';
-import { auth, googleProvider } from '../../firebase/config';
-import GoogleIcon from './GoogleIcon'; // Assuming you will create this component
 import './Auth.css';
 
 const SignUpForm = () => {
@@ -11,7 +9,7 @@ const SignUpForm = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       return setError('Passwords do not match');
@@ -19,21 +17,22 @@ const SignUpForm = () => {
     setError('');
     setLoading(true);
     try {
-      await auth.createUserWithEmailAndPassword(email, password);
-      window.location.href = '/';
-    } catch (err) {
-      setError(err.message);
-    }
-    setLoading(false);
-  };
+      const response = await fetch('http://localhost:3001/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-  const handleGoogleSignUp = async () => {
-    setError('');
-    setLoading(true);
-    try {
-      await auth.signInWithPopup(googleProvider);
-      window.location.href = '/';
-    } catch (err) {
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to create an account');
+      }
+
+      window.location.href = '/login'; // Redirect to login after successful signup
+    } catch (err: any) {
       setError(err.message);
     }
     setLoading(false);
@@ -80,16 +79,6 @@ const SignUpForm = () => {
         <button type="submit" className="auth-button" disabled={loading}>
           {loading ? 'Creating...' : 'Sign Up'}
         </button>
-        <div className="divider">OR</div>
-        <button
-          type="button"
-          className="auth-button google-auth-button"
-          onClick={handleGoogleSignUp}
-          disabled={loading}
-        >
-          <GoogleIcon />
-          <span>Sign Up with Google</span>
-        </button>
         <div className="auth-switch">
           Already have an account? <Link to="/login">Log In</Link>
         </div>
@@ -99,3 +88,4 @@ const SignUpForm = () => {
 };
 
 export default SignUpForm;
+
