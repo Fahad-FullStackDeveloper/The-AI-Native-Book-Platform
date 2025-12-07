@@ -2,6 +2,28 @@
 
 This project is an innovative platform for creating and consuming "living books" powered by AI. It leverages a Spec-Driven Development (SDD) approach to build a comprehensive learning experience, starting with a course on "Physical AI & Humanoid Robotics." The platform integrates AI at its core, from content generation to interactive user experiences.
 
+## Hackathon Goals
+
+This project is being developed as part of a hackathon with the following goals:
+
+1.  **AI/Spec-Driven Book Creation:** Write a book using Docusaurus and deploy it to GitHub Pages.
+    - **Status:** `In Progress`. A Docusaurus book is set up, and content for "Physical AI & Humanoid Robotics" has been generated and structured.
+
+2.  **Integrated RAG Chatbot Development:** Build and embed a Retrieval-Augmented Generation (RAG) chatbot within the book to answer questions about the content.
+    - **Status:** `In Progress`. A Python/FastAPI backend (`/textbackend`) has been initiated, and a frontend `BookChatbot` component exists.
+
+3.  **Bonus: Signup and Signin:** Implement user authentication. At signup, collect user background information to enable personalization.
+    - **Status:** `In Progress`. Frontend components for Login/Signup (`/src/pages/login.tsx`, `src/pages/signup.tsx`) and a Node.js authentication server (`/server`) have been created.
+
+4.  **Bonus: Reusable Intelligence:** Create and use reusable intelligence via Claude Code Subagents and Agent Skills in the book project.
+    - **Status:** `In Progress`. The `/textbackend` directory shows a preliminary structure for agents and skills.
+
+5.  **Bonus: Content Personalization:** Allow logged-in users to personalize chapter content based on their background.
+    - **Status:** `Not Started`.
+
+6.  **Bonus: Urdu Translation:** Allow logged-in users to translate chapter content into Urdu.
+    - **Status:** `Not Started`.
+
 ## Tech Stack
 
 - **Frontend:** [Docusaurus](https://docusaurus.io/), [React](https://reactjs.org/), [TypeScript](https://www.typescriptlang.org/)
