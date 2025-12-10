@@ -11,8 +11,13 @@ class ChatHistorySkill(BaseSkill):
         super().__init__(name)
 
     async def execute(self, user_id, user_msg, ai_msg):
-        conn = pool.getconn()
+        if not pool:
+            print("Database pool not available, skipping chat history save.")
+            return
+
+        conn = None
         try:
+            conn = pool.getconn()
             with conn.cursor() as cur:
                 cur.execute(
                     "INSERT INTO chat_history (user_id, user_message, ai_response) VALUES (%s, %s, %s)",
@@ -22,6 +27,8 @@ class ChatHistorySkill(BaseSkill):
             print(f"Chat history saved for user {user_id}")
         except Exception as e:
             print(f"Error saving chat history in ChatHistorySkill: {e}")
-            conn.rollback()
+            if conn:
+                conn.rollback()
         finally:
-            pool.putconn(conn)
+            if conn:
+                pool.putconn(conn)

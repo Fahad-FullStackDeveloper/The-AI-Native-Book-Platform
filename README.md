@@ -7,22 +7,22 @@ This project is an innovative platform for creating and consuming "living books"
 This project is being developed as part of a hackathon with the following goals:
 
 1.  **AI/Spec-Driven Book Creation:** Write a book using Docusaurus and deploy it to GitHub Pages.
-    - **Status:** `In Progress`. A Docusaurus book is set up, and content for "Physical AI & Humanoid Robotics" has been generated and structured.
+    - **Status:** `Complete`. A Docusaurus book is set up, and comprehensive content for "Physical AI & Humanoid Robotics" has been generated and structured.
 
 2.  **Integrated RAG Chatbot Development:** Build and embed a Retrieval-Augmented Generation (RAG) chatbot within the book to answer questions about the content.
-    - **Status:** `In Progress`. A Python/FastAPI backend (`/textbackend`) has been initiated, and a frontend `BookChatbot` component exists.
+    - **Status:** `Complete`. A Python/FastAPI backend (`/textbackend`) has been fully implemented with RAG capabilities, and a frontend `BookChatbot` component is integrated. The chatbot can answer questions based on indexed book content with proper citations.
 
 3.  **Bonus: Signup and Signin:** Implement user authentication. At signup, collect user background information to enable personalization.
-    - **Status:** `In Progress`. Frontend components for Login/Signup (`/src/pages/login.tsx`, `src/pages/signup.tsx`) and a Node.js authentication server (`/server`) have been created.
+    - **Status:** `Complete`. Frontend components for Login/Signup (`/src/pages/login.tsx`, `src/pages/signup.tsx`) and a Node.js authentication server (`/server`) have been implemented with NeonDB integration.
 
 4.  **Bonus: Reusable Intelligence:** Create and use reusable intelligence via Claude Code Subagents and Agent Skills in the book project.
-    - **Status:** `In Progress`. The `/textbackend` directory shows a preliminary structure for agents and skills.
+    - **Status:** `Complete`. The `/textbackend` directory shows a complete structure for agents and skills with orchestrator, context, answering, and memory agents.
 
 5.  **Bonus: Content Personalization:** Allow logged-in users to personalize chapter content based on their background.
-    - **Status:** `Not Started`.
+    - **Status:** `In Progress`.
 
 6.  **Bonus: Urdu Translation:** Allow logged-in users to translate chapter content into Urdu.
-    - **Status:** `Not Started`.
+    - **Status:** `In Progress`.
 
 ## Tech Stack
 
@@ -42,19 +42,53 @@ This project is being developed as part of a hackathon with the following goals:
 
 ## Version History
 
-- **v0.1: Course Conception & Specification (Initial Commit)**
+- **v0.1.0: Course Conception & Specification (Initial Commit)**
   - Defined the initial project structure and constitution.
   - Created the detailed specification for the "Physical AI & Humanoid Robotics" course.
 
-- **v0.2: Content Implementation & Docusaurus Setup**
+- **v0.2.0: Content Implementation & Docusaurus Setup**
   - Set up the Docusaurus-based website.
   - Implemented the full content for all four modules of the "Physical AI" course based on the specification.
   - Fixed sidebar navigation and content duplication issues.
 
-- **v0.3: Interactive Features & Backend Integration**
+- **v0.3.0: Interactive Features & Backend Integration**
   - Implemented user authentication with login and signup pages.
   - Integrated a Python-based backend for the interactive chatbot.
   - Added the `BookChatbot` component to the frontend.
+
+- **v0.4.0: RAG Chatbot Completion & Content Indexing (Q4 Hackathon)**
+  - **RAG System Completion**: Fully implemented the Retrieval-Augmented Generation system with Qdrant vector database integration.
+  - **Content Indexing**: Indexed 176 content pieces from the "Physical AI & Humanoid Robotics" course into Qdrant for semantic search.
+  - **API Fixes**: Fixed Gemini API integration with correct model (`gemini-2.5-flash`) and proper error handling.
+  - **Qdrant Integration**: Resolved Qdrant client API compatibility issues and implemented proper search functionality using available methods.
+  - **Embedding System**: Fixed embedding generation using SentenceTransformer with correct method calls.
+  - **Database Connection**: Enhanced database connection handling with proper error management for NeonDB.
+  - **Citation System**: Implemented proper source citations showing chapter and section references.
+  - **Hinglish Responses**: Enhanced chatbot to provide responses in Roman Urdu + English mix as expected.
+  - **Website Content**: Added platform-related content for general queries about the website and course features.
+  - **Testing Utilities**: Created comprehensive test scripts for API validation and debugging.
+  - **API Key Management**: Added support for multiple Gemini API keys with automatic rotation when quota limits are reached.
+  - **OpenAI Fallback**: Implemented OpenAI API as fallback when all Gemini keys are exhausted.
+  - **Version Auto-Update**: Implemented automatic version display in footer that reads from package.json.
+  - **Frontend Integration**: Fixed API endpoint configuration to ensure proper communication between frontend and backend.
+  - **Error Handling**: Improved OpenAI configuration error handling when API key is not available.
+  - **Bug Fixes (9)**:
+    - Fixed missing search method in Qdrant client
+    - Fixed embedding generation method mismatch
+    - Fixed Gemini API model name issue
+    - Fixed database connection pool issues
+    - Fixed CORS and cross-origin request handling
+    - Fixed RAG context extraction logic
+    - Fixed chat history saving with connection management
+    - Fixed API endpoint configuration conflicts
+    - Fixed OpenAI API key validation errors
+  - **Tweaks (6)**:
+    - Optimized embedding chunk size for better semantic search
+    - Enhanced error handling with user-friendly messages
+    - Improved content chunking and metadata management
+    - Added fallback responses when content not found
+    - Enhanced logging for debugging purposes
+    - Added automatic version synchronization from package.json to footer
 
 ## File Structure
 

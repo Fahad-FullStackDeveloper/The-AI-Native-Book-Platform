@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import styles from './styles.module.css';
 import ReactMarkdown from 'react-markdown';
 
-const API_URL = "http://localhost:8000/chat";
+const API_URL = "http://localhost:8001/chat";
 
 interface Message {
   text: string;
