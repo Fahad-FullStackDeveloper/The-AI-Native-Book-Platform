@@ -13,7 +13,7 @@ This project is being developed as part of a hackathon with the following goals:
     - **Status:** `Complete`. A Python/FastAPI backend (`/textbackend`) has been fully implemented with RAG capabilities, and a frontend `BookChatbot` component is integrated. The chatbot can answer questions based on indexed book content with proper citations.
 
 3.  **Bonus: Signup and Signin:** Implement user authentication. At signup, collect user background information to enable personalization.
-    - **Status:** `Complete`. Frontend components for Login/Signup (`/src/pages/login.tsx`, `src/pages/signup.tsx`) and a Node.js authentication server (`/server`) have been implemented with NeonDB integration.
+    - **Status:** `In Progress`.
 
 4.  **Bonus: Reusable Intelligence:** Create and use reusable intelligence via Claude Code Subagents and Agent Skills in the book project.
     - **Status:** `Complete`. The `/textbackend` directory shows a complete structure for agents and skills with orchestrator, context, answering, and memory agents.
@@ -90,6 +90,11 @@ This project is being developed as part of a hackathon with the following goals:
     - Enhanced logging for debugging purposes
     - Added automatic version synchronization from package.json to footer
 
+- **v0.4.1: Temporary Issue Resolution & API Configuration Fix**
+  - **Issue Resolution**: Fixed chatbot connection issue where frontend was connecting to wrong port (8001 instead of 8000)
+  - **API Endpoint Fix**: Updated frontend BookChatbot component to connect to correct backend endpoint `http://localhost:8000/chat`
+  - **Temporary Status**: This resolves a temporary configuration mismatch during development
+
 ## File Structure
 
 ```
@@ -102,6 +107,8 @@ This project is being developed as part of a hackathon with the following goals:
 ├───specs/              # Gemini CLI: Specifications, plans, and tasks for features
 ├───src/                # Docusaurus/React frontend source code
 │   ├───components/     # React components (Auth, Chatbot, etc.)
+│   │   ├───Auth/       # Authentication components (Login, Signup forms)
+│   │   └───BookChatbot/ # Chatbot component with styles and functionality
 │   ├───contexts/       # React contexts (e.g., AuthContext)
 │   ├───pages/          # Page components (login, signup)
 │   └───theme/          # Docusaurus theme customizations
