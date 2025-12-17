@@ -1,8 +1,15 @@
 import {themes as prismThemes} from 'prism-react-renderer';
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
+import fs from 'fs';
+import path from 'path';
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
+
+// Read version from package.json
+const packageJsonPath = path.join(__dirname, 'package.json');
+const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
+const version = packageJson.version;
 
 const config: Config = {
   title: 'The AI Native Book',
@@ -73,6 +80,16 @@ const config: Config = {
           label: 'Physical AI',
         },
         {
+          to: '/login',
+          label: 'Sign In',
+          position: 'right',
+        },
+        {
+          to: '/signup',
+          label: 'Sign Up',
+          position: 'right',
+        },
+        {
           href: `https://github.com/panaversity/spec-kit-plus/`,
           label: 'GitHub',
           position: 'right',
@@ -127,6 +144,10 @@ const config: Config = {
               label: 'GitHub',
               href: 'https://github.com/panaversity/spec-kit-plus/',
             },
+            {
+              label: 'Sign Up',
+              to: '/signup',
+            },
           ],
         },
       ],
@@ -136,7 +157,7 @@ const config: Config = {
         width: 100,
         height: 100,
       },
-      copyright: `Copyright © ${new Date().getFullYear()} The AI Native Book Project. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} The AI Native Book Project v${version}. Built with Docusaurus.`,
     },
     prism: {
       theme: prismThemes.oneLight,
