@@ -45,9 +45,21 @@ const BookChatbot = () => {
     setError('');
 
     try {
+      // Get auth token from localStorage if available
+      const token = localStorage.getItem('auth_token');
+
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+
+      // Add authorization header if token exists
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
+
       const response = await fetch(API_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: headers,
         body: JSON.stringify({
           question: input,
           selectedText: null, // This can be enhanced later to get selected text

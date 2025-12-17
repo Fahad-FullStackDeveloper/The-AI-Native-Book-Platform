@@ -80,6 +80,16 @@ const config: Config = {
           label: 'Physical AI',
         },
         {
+          to: '/login',
+          label: 'Sign In',
+          position: 'right',
+        },
+        {
+          to: '/signup',
+          label: 'Sign Up',
+          position: 'right',
+        },
+        {
           href: `https://github.com/panaversity/spec-kit-plus/`,
           label: 'GitHub',
           position: 'right',
@@ -133,6 +143,10 @@ const config: Config = {
             {
               label: 'GitHub',
               href: 'https://github.com/panaversity/spec-kit-plus/',
+            },
+            {
+              label: 'Sign Up',
+              to: '/signup',
             },
           ],
         },

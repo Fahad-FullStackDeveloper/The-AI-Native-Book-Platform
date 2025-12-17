@@ -16,21 +16,24 @@ const LoginForm = () => {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:3001/login', {
+      // Call better-auth login API
+      const response = await fetch('http://localhost:3001/api/auth/sign-in/email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include', // Include cookies for session management
         body: JSON.stringify({ email, password }),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to log in');
+        throw new Error(data.error?.message || 'Failed to log in');
       }
-      
-      login(data.user.email);
+
+      // Login with the session ID
+      login(data.user.email, data.session.id);
       history.push('/');
 
     } catch (err: any) {
@@ -54,6 +57,7 @@ const LoginForm = () => {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
               required
+              disabled={loading}
             />
             <span className="input-icon">📧</span>
           </div>
@@ -70,6 +74,7 @@ const LoginForm = () => {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
               required
+              disabled={loading}
             />
             <span className="input-icon">🔒</span>
           </div>

@@ -1,10 +1,9 @@
 const express = require('express');
 const cors = require('cors');
-const { Pool } = require('pg');
-const bcrypt = require('bcrypt');
 require('dotenv').config();
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 const { QdrantClient } = require('@qdrant/js-client-rest');
+const auth = require('./auth/better-auth-config.js');
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -12,36 +11,10 @@ const port = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
-// Initialize PostgreSQL connection pool with NeonDB
-const pool = new Pool({
-  connectionString: process.env.NEON_DB_URL,
-  ssl: {
-    rejectUnauthorized: false
-  }
+// Test endpoint
+app.get('/test', (req, res) => {
+  res.json({ message: 'Server is working!' });
 });
-
-// Test database connection
-pool.query('SELECT NOW()', (err, res) => {
-  if (err) {
-    console.error('Database connection error:', err.stack);
-  } else {
-    console.log('Connected to NeonDB successfully');
-  }
-});
-
-// Create users table if it doesn't exist
-const createUsersTable = `
-  CREATE TABLE IF NOT EXISTS users (
-    id SERIAL PRIMARY KEY,
-    email VARCHAR(255) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-  );
-`;
-
-pool.query(createUsersTable)
-  .then(() => console.log('Users table checked/created'))
-  .catch(err => console.error('Error creating users table:', err));
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
@@ -51,90 +24,34 @@ const qdrantClient = new QdrantClient({
   apiKey: process.env.QDRANT_API_KEY,
 });
 
-// Signup Endpoint - save to NeonDB
-app.post('/signup', async (req, res) => {
-  const { email, password, createdAt } = req.body;
-
-  if (!email || !password) {
-    return res.status(400).json({ error: 'Email and password are required' });
-  }
-
-  try {
-    // Check if user already exists
-    const existingUser = await pool.query(
-      'SELECT id FROM users WHERE email = $1',
-      [email]
-    );
-
-    if (existingUser.rows.length > 0) {
-      return res.status(400).json({ error: 'User already exists' });
-    }
-
-    // Hash the password
-    const saltRounds = 12;
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
-
-    // Insert new user into database
-    const result = await pool.query(
-      'INSERT INTO users (email, password, created_at) VALUES ($1, $2, $3) RETURNING id, email',
-      [email, hashedPassword, createdAt || new Date().toISOString()]
-    );
-
-    res.status(201).json({
-      message: 'User created successfully',
-      user: { id: result.rows[0].id, email: result.rows[0].email }
-    });
-  } catch (error) {
-    console.error('Signup error:', error);
-    res.status(500).json({ error: 'Failed to create user' });
-  }
+// Integrate better-auth API routes
+app.use('/api/auth', (req, res, next) => {
+  auth.handler(req, res, next);
 });
 
-// Login Endpoint - verify against NeonDB
-app.post('/login', async (req, res) => {
-  const { email, password } = req.body;
-
-  if (!email || !password) {
-    return res.status(400).json({ error: 'Email and password are required' });
-  }
-
-  try {
-    // Find user in database
-    const userResult = await pool.query(
-      'SELECT id, email, password FROM users WHERE email = $1',
-      [email]
-    );
-
-    if (userResult.rows.length === 0) {
-      return res.status(401).json({ error: 'Invalid credentials' });
-    }
-
-    const user = userResult.rows[0];
-
-    // Compare provided password with hashed password
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-
-    if (!isPasswordValid) {
-      return res.status(401).json({ error: 'Invalid credentials' });
-    }
-
-    res.status(200).json({
-      message: 'Logged in successfully',
-      user: { id: user.id, email: user.email }
-    });
-  } catch (error) {
-    console.error('Login error:', error);
-    res.status(500).json({ error: 'Failed to login' });
-  }
-});
-
-// RAG Chat endpoint
+// RAG Chat endpoint - authentication is optional
 app.post('/chat', async (req, res) => {
   try {
+    // Get session information from better-auth if available
+    // We'll make a request to the better-auth get-session endpoint
+    const sessionResponse = await fetch('http://localhost:3001/api/auth/get-session', {
+      method: 'GET',
+      headers: {
+        ...req.headers,
+        'content-type': 'application/json',
+      },
+      credentials: 'include'
+    });
+    const sessionData = await sessionResponse.json();
+    const session = sessionData.session ? { user: sessionData.user } : null;
+
     const { message, userId } = req.body;
     if (!message) {
       return res.status(400).json({ error: 'Message is required' });
     }
+
+    // If authenticated, use the authenticated user's ID, otherwise use the provided userId or anonymous
+    const effectiveUserId = session?.user ? session.user.id : (userId || 'anonymous');
 
     // Search in Qdrant vector database for relevant context
     let context = '';

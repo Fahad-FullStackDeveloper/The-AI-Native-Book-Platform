@@ -6,18 +6,18 @@
   align-items: center;
   min-height: 80vh;
   padding: 2rem;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   background-color: var(--ifm-background-color);
+  color: var(--ifm-font-color-base);
 }
 
 .auth-form {
-  background-color: white;
+  background-color: var(--ifm-background-surface-color);
   padding: 2.5rem;
-  border-radius: 16px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  border-radius: var(--ifm-global-radius);
+  box-shadow: var(--ifm-global-shadow-lw);
   width: 100%;
   max-width: 420px;
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--ifm-color-emphasis-200);
   position: relative;
   overflow: hidden;
 }
@@ -35,9 +35,9 @@
 .auth-title {
   text-align: center;
   font-size: 1.8rem;
-  font-weight: 700;
+  font-weight: var(--ifm-font-weight-bold);
   margin-bottom: 2rem;
-  color: #2d3748;
+  color: var(--ifm-heading-color);
   position: relative;
 }
 
@@ -59,19 +59,19 @@
 .form-group label {
   display: block;
   font-size: 0.9rem;
-  font-weight: 600;
+  font-weight: var(--ifm-font-weight-semibold);
   margin-bottom: 0.5rem;
-  color: #4a5568;
+  color: var(--ifm-color-emphasis-700);
 }
 
 .form-control {
   width: 100%;
   padding: 0.9rem 1.2rem;
-  border: 2px solid #e2e8f0;
-  border-radius: 10px;
+  border: 2px solid var(--ifm-color-emphasis-300);
+  border-radius: var(--ifm-input-border-radius);
   font-size: 1rem;
-  background-color: #ffffff;
-  color: #2d3748;
+  background-color: var(--ifm-input-background);
+  color: var(--ifm-font-color-base);
   transition: all 0.3s ease;
   position: relative;
   z-index: 1;
@@ -80,23 +80,23 @@
 .form-control:focus {
   outline: none;
   border-color: var(--ifm-color-primary);
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+  box-shadow: var(--ifm-input-shadow);
   transform: translateY(-2px);
 }
 
 .form-control::placeholder {
-  color: #a0aec0;
+  color: var(--ifm-color-emphasis-500);
 }
 
 .auth-button {
   width: 100%;
   padding: 0.9rem;
   border: none;
-  border-radius: 10px;
+  border-radius: var(--ifm-button-border-radius);
   background: linear-gradient(135deg, var(--ifm-color-primary) 0%, #6e8efb 100%);
-  color: #ffffff;
+  color: var(--ifm-button-color);
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: var(--ifm-font-weight-semibold);
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
@@ -122,7 +122,7 @@
 
 .auth-button:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(79, 70, 229, 0.3);
+  box-shadow: var(--ifm-button-shadow);
 }
 
 .auth-button:active:not(:disabled) {
@@ -130,7 +130,7 @@
 }
 
 .auth-button:disabled {
-  background: #cbd5e0;
+  background-color: var(--ifm-color-emphasis-200);
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
@@ -140,12 +140,12 @@
   text-align: center;
   margin-top: 1.5rem;
   padding-top: 1.5rem;
-  border-top: 1px solid #e2e8f0;
+  border-top: 1px solid var(--ifm-color-emphasis-200);
 }
 
 .auth-switch a {
   color: var(--ifm-color-primary);
-  font-weight: 600;
+  font-weight: var(--ifm-font-weight-semibold);
   text-decoration: none;
   position: relative;
   padding: 0.25rem 0;
@@ -167,27 +167,27 @@
 }
 
 .error-message {
-  color: #e53e3e;
-  background-color: #fed7d7;
-  border: 1px solid #feb2b2;
-  border-radius: 8px;
+  color: var(--ifm-color-danger-contrast-foreground);
+  background-color: var(--ifm-color-danger-contrast-background);
+  border: 1px solid var(--ifm-color-danger-dark);
+  border-radius: var(--ifm-global-radius);
   padding: 0.8rem;
   margin-bottom: 1.5rem;
   text-align: center;
   font-size: 0.9rem;
-  border-left: 4px solid #e53e3e;
+  border-left: 4px solid var(--ifm-color-danger);
 }
 
 .success-message {
-  color: #2f855a;
-  background-color: #c6f6d5;
-  border: 1px solid #9ae6b4;
-  border-radius: 8px;
+  color: var(--ifm-color-success-contrast-foreground);
+  background-color: var(--ifm-color-success-contrast-background);
+  border: 1px solid var(--ifm-color-success-dark);
+  border-radius: var(--ifm-global-radius);
   padding: 0.8rem;
   margin-bottom: 1.5rem;
   text-align: center;
   font-size: 0.9rem;
-  border-left: 4px solid #2f855a;
+  border-left: 4px solid var(--ifm-color-success);
 }
 
 .input-icon {
@@ -195,7 +195,7 @@
   right: 1rem;
   top: 50%;
   transform: translateY(-50%);
-  color: #a0aec0;
+  color: var(--ifm-color-emphasis-500);
   z-index: 2;
 }
 
